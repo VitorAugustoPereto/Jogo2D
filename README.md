@@ -1,4 +1,4 @@
-# Jogo2D
+# Game 2D do Marcão
 Nome dos Integrantes:
 
 Tainan do Santos
