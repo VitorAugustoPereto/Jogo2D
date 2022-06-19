@@ -1,9 +1,10 @@
+import random
 import pygame
 from pygame.locals import *
 from sys import exit
 
 x = 1280
-y = 600
+y = 720
 
 screen = pygame.display.set_mode((x, y))
 pygame.display.set_caption('Top Gun')
@@ -29,6 +30,15 @@ pos_navePlayer_y = 300
 bg = pygame.image.load('assets/Fundo.PNG.png').convert_alpha()
 bg = pygame.transform.scale(bg, (x, y))
 
+#funções
+def respawn():
+    x = 1350
+    y = random.randint(1,640)
+    return [x,y]
+
+
+
+
 rodando = True
 
 while rodando:
@@ -43,11 +53,26 @@ while rodando:
     if rel_x < 1200:
         screen.blit(bg, (rel_x,0))
 
+    #teclas
+    tecla = pygame.key.get_pressed()
+    if tecla[pygame.K_w] and pos_navePlayer_y > 1:
+        pos_navePlayer_y -= 1
+    if tecla[pygame.K_s] and pos_navePlayer_y < 665:
+        pos_navePlayer_y += 1
+
+    #respawn
+    if pos_naveInimiga_x == 50:
+        pos_naveInimiga_x = respawn()[0]
+        pos_naveInimiga_y = respawn()[1]
+
+
+
     #movimento
     x-=0.6
+    pos_naveInimiga_x -= 1
 
     #criada imagens
-    screen.blit(naveInimiga, (pos_naveInimiga_y, pos_naveInimiga_y))
+    screen.blit(naveInimiga, (pos_naveInimiga_x, pos_naveInimiga_y))
     screen.blit(navePlayer, (pos_navePlayer_x, pos_navePlayer_y))
 
     pygame.display.update()
