@@ -2,18 +2,22 @@ import pygame
 from pygame.locals import *
 from sys import exit
 
-pygame. init()
+x = 600
+y = 800
 
-largura = 640
-altura = 480
+screen = pygame.display.set_mode((x, y))
+pygame.display.set_caption('Top Gun')
 
-tela = pygame.display.set_mode((largura,altura))
-pygame.display.set_caption("Jogo: Tainan, Vitor")
+bg = pygame.image.load('assets/Fundo.PNG.png').convert_alpha()
+bg = pygame.transform.scale(bg, (x, y))
 
-while True:
+rodando = True
+
+while rodando:
     for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            exit()
-        pygame.display.update()
-        
+        if event.type == pygame.QUIT:
+            rodando = False
+
+    screen.blit(bg, (0, 0))
+
+    pygame.display.update()
