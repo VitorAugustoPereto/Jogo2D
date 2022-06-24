@@ -2,12 +2,16 @@ import random
 import pygame
 from pygame.locals import *
 from sys import exit
+pygame.init()
 
-#pygame.mixer.music.set_volume()
-#musicafundo = pygame.mixer.music.load('assets/MusicaFundo.mp3')
-#pygame.mixer.music.play(-1)
+pygame.mixer.init()
+musicafundo = pygame.mixer.music.load('assets/MusicaFundo.mp3')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(1)
 
-#barulhocolisao = pygame.mixer.Sound('assets/smw_map_castle_crumbles.wav')
+#comando de ativação na linha 95
+barulho_colisao = pygame.mixer.Sound('assets/SomMissil.wav')
+barulho_colisao.set_volume(1)
 
 
 #tamanho da tela
@@ -42,7 +46,7 @@ vel_x_missil = 0
 pos_x_missil = 100
 pos_y_missil = 300
 
-#função para associar a colisão, podendo somar os pontos após cada acontecimento programado no jogo
+#função para associar a colisão ou passagem da nave, podendo somar os pontos após cada acontecimento programado no jogo
 pontos = 1
 
 triggered = False #para manter o missil parado e ser ativado pelo jogador ao precionar a tecla definida
@@ -51,7 +55,8 @@ triggered = False #para manter o missil parado e ser ativado pelo jogador ao pre
 rodando = True
 
 #Fução para escolher a fonte e o tamanho do placar na tela do jogo
-#font = pygame.font.SysFont('assets/fontpixel.ttf' 5a)
+print(pygame.font.get_fonts())
+fonte = pygame.font.Font("assets/fontpixel.ttf", 20)
 
 #transforma as imagens por assim dizer dentro do jogo, assumirem papeis de objetos
 player_rect = navePlayer.get_rect()
@@ -84,15 +89,18 @@ def colisao():
     global pontos
     if player_rect.colliderect(naveInimiga_rect) or naveInimiga_rect.x == 60:
         pontos -=1
+        pygame.mixer.Sound.play(barulho_colisao)
         return True
     elif missil_rect.colliderect(naveInimiga_rect):
         pontos +=1 
+        pygame.mixer.Sound.play(barulho_colisao)
         return True
     else:
         return False
-    #barulhocolisao.play()
+    
 
 #loop para fazer rodar o jogo
+erro = 0
 while rodando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -163,8 +171,8 @@ while rodando:
     #pygame.draw.rect(screen, (255,0,0), missil_rect, 4)
 
     #comando para aparecer o placar em meio ao jogo, marcando a pontuação
-    #score = font.render(f' Pontos: {int(pontos)} ', True, (0,0,0))
-    #screen.blit(score, (50,50))
+    score = fonte.render(f' Pontos: {int(pontos)} ', True, (0,0,0))
+    screen.blit(score, (50,50))
 
     #criada imagens na tela do jogo
     screen.blit(naveInimiga, (pos_naveInimiga_x, pos_naveInimiga_y))
