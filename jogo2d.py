@@ -37,7 +37,7 @@ vel_x_missil = 0
 pos_x_missil = 200
 pos_y_missil = 300
 
-pontos = 10
+pontos = 1
 
 triggered = False
 
