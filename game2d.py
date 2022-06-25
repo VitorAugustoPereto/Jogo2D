@@ -4,6 +4,11 @@ from pygame.locals import *
 from sys import exit
 pygame.init()
 
+usuario = input("Digite o nome de usuario: ")
+email = input("digite o seu email: ")
+log = open("data.txt","a")
+log.write(f'Usuário: {usuario}\nEmail: {email}\n')
+
 pygame.mixer.init()
 musicafundo = pygame.mixer.music.load('assets/MusicaFundo.mp3')
 pygame.mixer.music.play(-1)
@@ -67,7 +72,6 @@ missil_rect = missil.get_rect()
 #define imagem de fundo e nas proporções de altura e largura
 bg = pygame.image.load('assets/Fundo.jpg').convert_alpha()
 bg = pygame.transform.scale(bg, (x, y))
-
 
 
 #funções de respawn
