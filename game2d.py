@@ -12,7 +12,7 @@ log.write(f'Usuário: {usuario}\nEmail: {email}\n')
 pygame.mixer.init()
 musicafundo = pygame.mixer.music.load('assets/MusicaFundo.mp3')
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(1)
+pygame.mixer.music.set_volume(0.2)
 
 #comando de ativação na linha 95
 barulho_colisao = pygame.mixer.Sound('assets/SomMissil.wav')
@@ -28,7 +28,7 @@ pygame.display.set_caption('Top Gun') #nome na janela ou nome do jogo
 #cria nave inimiga, tamanho e rotação da imagem
 naveInimiga = pygame.image.load("assets/Nave2.PNG.png").convert_alpha()
 naveInimiga = pygame.transform.scale(naveInimiga,(50,50)) #define o tamanho da nave
-naveInimiga = pygame.transform.rotate(naveInimiga, 90   )
+naveInimiga = pygame.transform.rotate(naveInimiga, 90)
 
 #posição inicial da nave inimiga
 pos_naveInimiga_x = 500
@@ -56,6 +56,7 @@ pontos = 1
 
 triggered = False #para manter o missil parado e ser ativado pelo jogador ao precionar a tecla definida
 
+game_over = pygame.image.load("assets/game.over.jpg")
 
 rodando = True
 
@@ -77,7 +78,7 @@ bg = pygame.transform.scale(bg, (x, y))
 #funções de respawn
 def respawn():
     x = 1350
-    y = random.randint(1,640)
+    y = random.randint(20,620)
     return [x,y]
 
 def respawn_missil():
@@ -96,7 +97,7 @@ def colisao():
         pygame.mixer.Sound.play(barulho_colisao)
         return True
     elif missil_rect.colliderect(naveInimiga_rect):
-        pontos +=1 
+        pontos +=1
         pygame.mixer.Sound.play(barulho_colisao)
         return True
     else:
@@ -163,7 +164,6 @@ while rodando:
     naveInimiga_rect.x = pos_naveInimiga_x
     naveInimiga_rect.y = pos_naveInimiga_y
 
-
     #movimento e velocidade dos itens
     x-=1
     pos_naveInimiga_x -= 1.5
@@ -176,7 +176,7 @@ while rodando:
 
     #comando para aparecer o placar em meio ao jogo, marcando a pontuação
     score = fonte.render(f' Pontos: {int(pontos)} ', True, (0,0,0))
-    screen.blit(score, (50,50))
+    screen.blit(score, (590,10))
 
     #criada imagens na tela do jogo
     screen.blit(naveInimiga, (pos_naveInimiga_x, pos_naveInimiga_y))
